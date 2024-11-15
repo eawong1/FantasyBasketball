@@ -5,5 +5,20 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FantasyBasketball.MainWindow"
         Title="FantasyBasketball">
-    Welcome to Avalonia!
+    
+    <StackPanel>
+        <TextBlock TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,20,0,0"> 
+            Fantasy Basketball 
+        </TextBlock>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="League ID:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
+            <TextBox x:Name="LeagueIdTextBox" Width="200" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="League Year:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
+            <TextBox x:Name="LeagueYearTextBox" Width="200" />
+        </StackPanel>
+    </StackPanel>
+
 </Window>
