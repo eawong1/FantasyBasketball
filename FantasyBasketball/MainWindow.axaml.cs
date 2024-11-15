@@ -2,6 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
+
 namespace FantasyBasketball;
 
 public partial class MainWindow : Window
@@ -24,7 +25,7 @@ public partial class MainWindow : Window
         Console.WriteLine("SWID: " + swid);
         Console.WriteLine("ESPN S2: " + espnS2);
 
-        
+        League league = new League(leagueId, leagueYear, swid, espnS2);
     }
 
 }
