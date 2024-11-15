@@ -23,6 +23,8 @@ public partial class MainWindow : Window
         Console.WriteLine("League Year: " + leagueYear);
         Console.WriteLine("SWID: " + swid);
         Console.WriteLine("ESPN S2: " + espnS2);
+
+        
     }
 
 }
