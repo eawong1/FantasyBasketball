@@ -64,8 +64,8 @@ public class League
                     //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
                     m_responseData = JsonSerializer.Deserialize<Dictionary<string, object>>(responseData);
                     
-                    var temp = m_responseData["teams"];
-                    File.AppendAllText("temp.txt", temp.ToString());
+                    // var temp = m_responseData["teams"];
+                    // File.AppendAllText("temp.txt", temp.ToString());
 
                 }
                 else

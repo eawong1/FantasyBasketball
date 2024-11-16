@@ -11,13 +11,13 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted()
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            desktop.MainWindow = new MainWindow();
-        }
+    // public override void OnFrameworkInitializationCompleted()
+    // {
+    //     if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+    //     {
+    //         desktop.MainWindow = new MainWindow();
+    //     }
 
-        base.OnFrameworkInitializationCompleted();
-    }
+    //     base.OnFrameworkInitializationCompleted();
+    // }
 }

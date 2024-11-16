@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 
 namespace FantasyBasketball;
 
-public partial class MainWindow : Window
+public partial class MainWindow : UserControl
 {
     public MainWindow()
     {
@@ -25,7 +25,11 @@ public partial class MainWindow : Window
         Console.WriteLine("SWID: " + swid);
         Console.WriteLine("ESPN S2: " + espnS2);
 
-        League league = new League(leagueId, leagueYear, swid, espnS2);
+        // League league = new League(leagueId, leagueYear, swid, espnS2);
+        if (this.Parent is ContentControl contentControl)
+        {
+            contentControl.Content = new TeamSelect();
+        }
     }
 
 }
