@@ -1,41 +1,10 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:local="clr-namespace:FantasyBasketball"
         x:Class="FantasyBasketball.MainWindow"
-        Title="FantasyBasketball">
+        Title="Fantasy Basketball App"
+        Width="800" Height="600">
     
-    <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,20,0,0"> 
-            Fantasy Basketball 
-        </TextBlock>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="League ID:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-            <TextBox x:Name="LeagueIdTextBox" Width="200" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="League Year:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-            <TextBox x:Name="LeagueYearTextBox" Width="200" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="Have to enter SWID and Espn_S2 if league is private:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="SWID:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-            <TextBox x:Name="SwidTextBox" Width="200" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="Espn S2:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-            <TextBox x:Name="espnTextBox" Width="200" />
-        </StackPanel>
-
-        <Button x:Name="loginButton" Content="Login" Width="100" HorizontalAlignment="Center" Margin="10" Click="LoginButton_Click" />
-    </StackPanel>
-
-</UserControl>
+    <!-- Set the content to the Login UserControl -->
+    <local:Login />
+</Window>
