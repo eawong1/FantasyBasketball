@@ -26,10 +26,6 @@ public partial class Login : UserControl
         Console.WriteLine("ESPN S2: " + espnS2);
 
         League league = new League(leagueId, leagueYear, swid, espnS2);
-        // if (this.Parent is ContentControl contentControl)
-        // {
-        //     contentControl.Content = new TeamSelect();
-        // }
     }
 
 }

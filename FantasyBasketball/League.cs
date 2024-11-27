@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Avalonia.Markup.Xaml.Templates;
 using Microsoft.VisualBasic;
+using Utilities;
 
 public class League
 {
@@ -14,7 +15,7 @@ public class League
     private string? m_leagueYear;
     private string? m_swid;
     private string? m_espn;
-    private Dictionary<string, object> m_responseData;
+    private Dictionary<string, JsonElement> m_responseData;
 
     //$"https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/2025/segments/0/leagues/1282650304";
     private const string BASE_ENDPOINT = $"https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons";
@@ -29,7 +30,20 @@ public class League
         Login();
     }
 
-    public async void Login()
+    public List<string> GetTeamNames()
+    {
+        List<string> teams = new List<string>();
+        
+        var listTeams = UtilityFunctions.JsonElementToListOfObjects(m_responseData["teams"]);
+        foreach(var team in listTeams)
+        {
+            teams.Add(team["name"].ToString());
+        }
+
+        return teams;
+    }
+
+    private async void Login()
     {
         if(m_leagueId == null || m_leagueYear == null)
         {
@@ -60,13 +74,9 @@ public class League
                 {
                     // Read the response content as a string
                     var responseData = await response.Content.ReadAsStringAsync();
-                    // var responseData = await response.Content.ReadFromJsonAsync();
-                    //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
-                    m_responseData = JsonSerializer.Deserialize<Dictionary<string, object>>(responseData);
-                    
-                    // var temp = m_responseData["teams"];
-                    // File.AppendAllText("temp.txt", temp.ToString());
 
+                    //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
+                    m_responseData = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseData);
                 }
                 else
                 {
