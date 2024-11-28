@@ -68,7 +68,7 @@ public class League
             {
                 // Make the GET request
                 HttpResponseMessage response = await client.GetAsync(url);
-
+                
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {

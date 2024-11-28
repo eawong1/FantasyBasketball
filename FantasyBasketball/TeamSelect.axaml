@@ -7,10 +7,8 @@
         >
     
     <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,20,0,0"> 
-            Select Team
-        </TextBlock>
-
+        <TextBlock Margin="0 5">Select Team:</TextBlock>
+        <ListBox x:Name="teams"/>
         
     </StackPanel>
 
