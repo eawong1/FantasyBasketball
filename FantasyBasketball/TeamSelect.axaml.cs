@@ -9,6 +9,7 @@ public partial class TeamSelect : UserControl
     public TeamSelect(League league)
     {
         InitializeComponent();
+        var teamNames = league.GetTeamNames();
         teams.ItemsSource = league.GetTeamNames().OrderBy(x => x).ToList();
     }
 }

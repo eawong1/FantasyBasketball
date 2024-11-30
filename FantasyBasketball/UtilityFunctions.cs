@@ -1,10 +1,16 @@
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Utilities
 {
     public class UtilityFunctions
     {
+        private const string BASE_ENDPOINT = $"https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons";
+
         public static List<Dictionary<string, object>> JsonElementToListOfObjects(JsonElement element)
         {
             var list = new List<Dictionary<string, object>>();
@@ -25,6 +31,57 @@ namespace Utilities
             }
 
             return list;
+        }
+
+        public static async Task<Dictionary<string, JsonElement>> Login(string? leagueId, string? leagueYear, string? swid, string? espn)
+        {
+            Dictionary<string, JsonElement> responseDataDict;
+
+            if (leagueId == null || leagueYear == null)
+            {
+                throw new Exception("League ID and League Year cannot be empty.");
+            }
+
+            var url = BASE_ENDPOINT + $"/{leagueYear}/segments/0/leagues/{leagueId}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings";
+
+            var handler = new HttpClientHandler
+            {
+                CookieContainer = new CookieContainer()
+            };
+
+            // Add cookies to the handler's CookieContainer
+            handler.CookieContainer.Add(new Uri(url), new Cookie("swid", swid));
+            handler.CookieContainer.Add(new Uri(url), new Cookie("espn_s2", espn));
+
+            // Create an HttpClient instance
+            using (HttpClient client = new HttpClient(handler))
+            {
+                try
+                {
+                    // Make the GET request                
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    // Check if the request was successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //Read the response content as a string
+                        var responseData = await response.Content.ReadAsStringAsync();
+
+                        //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
+                        responseDataDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseData);
+                    }
+                    else
+                    {
+                        throw new Exception("ResponseData Failed");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+
+            return responseDataDict;
         }
     }
 }

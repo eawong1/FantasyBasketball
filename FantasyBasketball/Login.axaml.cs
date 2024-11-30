@@ -1,6 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Utilities;
 
 
 namespace FantasyBasketball;
@@ -12,7 +13,7 @@ public partial class Login : UserControl
         InitializeComponent();
     }
 
-    private void LoginButton_Click(object? sender, RoutedEventArgs e)
+    private async void LoginButton_Click(object? sender, RoutedEventArgs e)
     {
         // Your login logic here
         string leagueId = LeagueIdTextBox.Text;
@@ -25,7 +26,9 @@ public partial class Login : UserControl
         Console.WriteLine("SWID: " + swid);
         Console.WriteLine("ESPN S2: " + espnS2);
 
-        League league = new League(leagueId, leagueYear, swid, espnS2);
+        var responseData = await UtilityFunctions.Login(leagueId, leagueYear, swid, espnS2);
+
+        League league = new League(responseData);
         
         if (this.Parent is ContentControl contentControl)
         {
