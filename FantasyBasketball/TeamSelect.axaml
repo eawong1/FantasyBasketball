@@ -9,14 +9,6 @@
     
     <StackPanel>
         <TextBlock Margin="0 5">Select Team:</TextBlock>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ListBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedItem}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
+        <ListBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedItem}"/>
     </StackPanel>
 </UserControl>
