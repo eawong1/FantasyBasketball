@@ -4,12 +4,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FantasyBasketball.TeamSelect"
-        >
+        x:DataType="vm:TeamSelectViewModel"
+        xmlns:vm="clr-namespace:FantasyBasketball">
     
     <StackPanel>
         <TextBlock Margin="0 5">Select Team:</TextBlock>
-        <ListBox x:Name="teams"/>
-        
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ListBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
     </StackPanel>
-
 </UserControl>
