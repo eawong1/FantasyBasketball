@@ -11,6 +11,7 @@ public partial class FunctionSelect : UserControl
     public FunctionSelect()
     {
         InitializeComponent();
+        // TeamNameText.Text += <insertTeamName>
     }
 
 }

@@ -7,7 +7,9 @@
         >
     
     <StackPanel>
-       
+        <TextBlock x:Name="TeamNameText" TextAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,20,0,0"> 
+            What would you like to do with Team:
+        </TextBlock>
     </StackPanel>
 
 </UserControl>

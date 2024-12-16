@@ -7,8 +7,24 @@
         x:DataType="vm:TeamSelectViewModel"
         xmlns:vm="clr-namespace:FantasyBasketball">
     
-    <StackPanel>
-        <TextBlock Margin="0 5">Select Team:</TextBlock>
-        <ListBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedItem}"/>
-    </StackPanel>
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Margin="0 5" Grid.Row="0">Select Team:</TextBlock>
+            
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1">
+                <ListBox 
+                    ItemsSource="{Binding Teams}"
+                    SelectedItem="{Binding SelectedItem}">
+                </ListBox>
+            </ScrollViewer>
+            
+        </Grid>
+    </Border>
+
+    
 </UserControl>
