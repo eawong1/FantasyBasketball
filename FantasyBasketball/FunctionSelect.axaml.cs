@@ -11,7 +11,17 @@ public partial class FunctionSelect : UserControl
     public FunctionSelect()
     {
         InitializeComponent();
-        // TeamNameText.Text += <insertTeamName>
+        TeamNameText.Text += "ahhhh";
+    }
+
+    private void GetPosButton_Clicked(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Posbuttoncluicked");
+    }
+
+    private void FutureButton_Clicked(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Posbuttoncluicked");
     }
 
 }

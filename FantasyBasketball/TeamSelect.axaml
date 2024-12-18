@@ -12,6 +12,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Margin="0 5" Grid.Row="0">Select Team:</TextBlock>
@@ -23,6 +24,9 @@
                 </ListBox>
             </ScrollViewer>
             
+            <Button Grid.Row="2" Grid.ColumnSpan="2" x:Name="submitButton" Content="Submit" Width="100" HorizontalAlignment="Center" Margin="10" Click="SubmitButton_Clicked">
+                <TextBlock Text="Select" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
         </Grid>
     </Border>
 
