@@ -8,10 +8,10 @@ namespace FantasyBasketball;
 
 public partial class FunctionSelect : UserControl
 {
-    public FunctionSelect()
+    public FunctionSelect(League league, string teamName)
     {
         InitializeComponent();
-        TeamNameText.Text += "ahhhh";
+        TeamNameText.Text += teamName;
     }
 
     private void GetPosButton_Clicked(object? sender, RoutedEventArgs e)

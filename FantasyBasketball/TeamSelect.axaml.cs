@@ -20,7 +20,7 @@ public partial class TeamSelect : UserControl
         Console.WriteLine("submit");
         if (this.Parent is ContentControl contentControl)
         {
-            contentControl.Content = new FunctionSelect();
+            contentControl.Content = new FunctionSelect(league, );
         }
     }
 }
