@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using Commands;
 
 namespace FantasyBasketball;
 
@@ -18,8 +19,7 @@ public class TeamSelectViewModel : INotifyPropertyChanged
             if (_selectedItem != value)
             {
                 _selectedItem = value;
-                // OnPropertyChanged(nameof(SelectedItem));
-                HandleItemSelected();
+                ((RelayCommand)SubmitCommand).RaiseCanExecuteChanged();
             }
         }
     }
@@ -36,15 +36,22 @@ public class TeamSelectViewModel : INotifyPropertyChanged
         {
             Teams.Add(team);
         }
+
+        SubmitCommand = new RelayCommand(OnSubmit, CanSubmit);
     }
 
-    private void HandleItemSelected()
+    private void OnSubmit()
     {
-        if (SelectedItem != null)
+        if(SelectedItem != null)
         {
-            Console.WriteLine($"You selected: {SelectedItem}");
-            // Perform your action here
+            Console.WriteLine($"You selected ahh: {SelectedItem}");
         }
+    }
+
+    private bool CanSubmit()
+    {
+        //only allow submit button to be hit if item is selected
+        return !string.IsNullOrEmpty(SelectedItem);
     }
 
     protected void OnPropertyChanged(string propertyName)
