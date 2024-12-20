@@ -3,12 +3,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Controls;
 using Commands;
 
 namespace FantasyBasketball;
 
 public class TeamSelectViewModel : INotifyPropertyChanged
 {
+    private League m_league;
     public event PropertyChangedEventHandler? PropertyChanged;
     private string? _selectedItem;
     public string? SelectedItem
@@ -20,6 +22,21 @@ public class TeamSelectViewModel : INotifyPropertyChanged
             {
                 _selectedItem = value;
                 ((RelayCommand)SubmitCommand).RaiseCanExecuteChanged();
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+    }
+
+    private Object? _currentView;
+    public Object? CurrentView
+    {
+        get => _currentView;
+        set
+        {
+            if(_currentView != value)
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
             }
         }
     }
@@ -30,6 +47,8 @@ public class TeamSelectViewModel : INotifyPropertyChanged
 
     public TeamSelectViewModel(League league)
     {
+        m_league = league;
+
         var teamNames = league.GetTeamNames();
 
         foreach (var team in teamNames.OrderBy(x => x))
@@ -44,7 +63,8 @@ public class TeamSelectViewModel : INotifyPropertyChanged
     {
         if(SelectedItem != null)
         {
-            Console.WriteLine($"You selected ahh: {SelectedItem}");
+            CurrentView = new FunctionSelect(m_league, SelectedItem);
+            Console.WriteLine($"SelectedItem: {SelectedItem}");
         }
     }
 
