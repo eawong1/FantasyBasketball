@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace FantasyBasketball;
 
@@ -17,13 +18,15 @@ public class TeamSelectViewModel : INotifyPropertyChanged
             if (_selectedItem != value)
             {
                 _selectedItem = value;
-                OnPropertyChanged(nameof(SelectedItem));
+                // OnPropertyChanged(nameof(SelectedItem));
                 HandleItemSelected();
             }
         }
     }
 
     public ObservableCollection<string> Teams { get; } = new ObservableCollection<string>();
+
+    public ICommand SubmitCommand{ get; }
 
     public TeamSelectViewModel(League league)
     {

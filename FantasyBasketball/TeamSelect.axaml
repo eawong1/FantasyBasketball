@@ -24,9 +24,9 @@
                 </ListBox>
             </ScrollViewer>
             
-            <Button Grid.Row="2" Grid.ColumnSpan="2" x:Name="submitButton" Content="Submit" Width="100" HorizontalAlignment="Center" Margin="10" Click="SubmitButton_Clicked">
-                <TextBlock Text="Select" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Button>
+            <!-- <Button Grid.Row="2" Grid.ColumnSpan="2" x:Name="submitButton" Content="Submit" Width="100" HorizontalAlignment="Center" Margin="10" Command="{Binding SubmitCommand}">
+                <TextBlock Text="Select" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button> -->
         </Grid>
     </Border>
 

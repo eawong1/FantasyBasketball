@@ -15,12 +15,4 @@ public partial class TeamSelect : UserControl
         DataContext = new TeamSelectViewModel(league);
     }
 
-    private void SubmitButton_Clicked(object? sender, RoutedEventArgs e)
-    {
-        Console.WriteLine("submit");
-        if (this.Parent is ContentControl contentControl)
-        {
-            contentControl.Content = new FunctionSelect(league, );
-        }
-    }
 }
