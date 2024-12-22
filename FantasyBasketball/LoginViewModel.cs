@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Commands;
+using Utilities;
 
 namespace FantasyBasketball;
 public class LoginViewModel : INotifyPropertyChanged
@@ -81,10 +82,10 @@ public class LoginViewModel : INotifyPropertyChanged
 
     public LoginViewModel()
     {
-        LoginCommand = new RelayCommand(async _ => await ExecuteLoginAsync(), CanLogin);
+        LoginCommand = new RelayCommand(() => ExecuteLoginAsync(), CanLogin);
     }
 
-    private bool CanLogin(object? parameter)
+    private bool CanLogin()
     {
         return !string.IsNullOrWhiteSpace(LeagueId) && !string.IsNullOrWhiteSpace(LeagueYear);
     }
