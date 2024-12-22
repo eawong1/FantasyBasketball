@@ -4,8 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FantasyBasketball.Login"
-        >
-    
+        x:DataType="vm:LoginViewModel"
+        xmlns:vm="clr-namespace:FantasyBasketball">
+
     <Border Padding="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -36,27 +37,26 @@
 
                 <!-- League ID -->
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="League ID:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="LeagueIdTextBox" Width="200" Margin="0,5,0,5"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Width="200" Margin="0,5,0,5" Text="{Binding LeagueId}"/>
 
                 <!-- League Year -->
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="League Year:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-                <TextBox Grid.Row="1" Grid.Column="1" x:Name="LeagueYearTextBox" Width="200" Margin="0,5,0,5"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Width="200" Margin="0,5,0,5" Text="{Binding LeagueYear}"/>
 
                 <!-- SWID and Espn_S2 instructions -->
                 <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Have to enter SWID and Espn_S2 if league is private:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
 
                 <!-- SWID -->
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="SWID:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-                <TextBox Grid.Row="3" Grid.Column="1" x:Name="SwidTextBox" Width="200" Margin="0,5,0,5"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Width="200" Margin="0,5,0,5" Text="{Binding Swid}"/>
 
                 <!-- ESPN S2 -->
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Espn S2:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-                <TextBox Grid.Row="4" Grid.Column="1" x:Name="espnTextBox" Width="200" Margin="0,5,0,5"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Width="200" Margin="0,5,0,5" Text="{Binding EspnS2}"/>
 
                 <!-- Login Button -->
-                <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="loginButton" Content="Login" Width="100" HorizontalAlignment="Center" Margin="10" Click="LoginButton_Click" />
+                <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Login" Width="100" HorizontalAlignment="Center" Margin="10" Command="{Binding LoginCommand}"/>
             </Grid>
         </Grid>
     </Border>
-
 </UserControl>

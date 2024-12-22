@@ -9,6 +9,7 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        Content = new Login();
+        // Content = new Login();
+        DataContext = new MainViewModel();
     }
 }
