@@ -9,7 +9,8 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        // Content = new Login();
+        InitializeComponent();
+        // Set the DataContext to an instance of MainViewModel
         DataContext = new MainViewModel();
     }
 }

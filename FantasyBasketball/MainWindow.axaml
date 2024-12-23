@@ -2,9 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:FantasyBasketball"
         x:Class="FantasyBasketball.MainWindow"
+        x:DataType="vm:MainViewModel"
+        xmlns:vm="clr-namespace:FantasyBasketball"
         Title="Fantasy Basketball App"
         Width="800" Height="600">
-    
-    <!-- Set the content to the Login UserControl -->
-    <local:Login />
+
+    <!-- Bind to the CurrentView property of the MainViewModel -->
+    <ContentControl Content="{Binding CurrentView}" />
 </Window>

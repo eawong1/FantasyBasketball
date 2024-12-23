@@ -26,7 +26,7 @@ public class MainViewModel : INotifyPropertyChanged
     public MainViewModel()
     {
         // Start with the TeamSelect view
-        CurrentView = new LoginViewModel();
+        CurrentView = new Login();
     }
 
     protected void OnPropertyChanged(string propertyName)
