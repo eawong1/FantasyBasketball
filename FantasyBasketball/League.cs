@@ -41,8 +41,10 @@ public class League
         List<string> roster = new List<string>();
 
         //! something is wrong with this filtering logic below
-        var temp = m_teams.FirstOrDefault(dict => dict["name"].ToString() == teamName);
-
+        var team = m_teams.FirstOrDefault(dict => dict["name"].ToString() == teamName);
+        var temp1 = team["roster"];
+        var temp2 = JsonSerializer.Serialize(temp1);
+        var temp = JsonSerializer.Deserialize<Dictionary<string,object>>(temp2);
         return roster;
     }
 }
