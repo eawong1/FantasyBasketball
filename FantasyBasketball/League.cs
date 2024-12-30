@@ -37,8 +37,10 @@ public class League
 
     public List<string> GetRoster(string teamName)
     {
+        
         List<string> roster = new List<string>();
 
+        //! something is wrong with this filtering logic below
         var temp = m_teams.FirstOrDefault(dict => dict["name"].ToString() == teamName);
 
         return roster;

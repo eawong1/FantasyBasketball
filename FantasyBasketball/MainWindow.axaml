@@ -1,11 +1,24 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:FantasyBasketball"
+        xmlns:vm="clr-namespace:FantasyBasketball"
         x:Class="FantasyBasketball.MainWindow"
         x:DataType="vm:MainViewModel"
-        xmlns:vm="clr-namespace:FantasyBasketball"
         Title="Fantasy Basketball App"
         Width="800" Height="600">
+
+    <Window.DataTemplates>
+        <!-- Define templates for LoginViewModel and TeamSelectViewModel -->
+        <DataTemplate DataType="{x:Type local:LoginViewModel}">
+            <local:Login />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:TeamSelectViewModel}">
+            <local:TeamSelect />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:FunctionSelectViewModel}">
+            <local:FunctionSelect />
+        </DataTemplate>
+    </Window.DataTemplates>
 
     <!-- Bind to the CurrentView property of the MainViewModel -->
     <ContentControl Content="{Binding CurrentView}" />

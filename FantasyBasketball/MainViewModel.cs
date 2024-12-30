@@ -1,7 +1,4 @@
-
-
 using System.ComponentModel;
-
 
 namespace FantasyBasketball;
 public class MainViewModel : INotifyPropertyChanged
@@ -26,7 +23,7 @@ public class MainViewModel : INotifyPropertyChanged
     public MainViewModel()
     {
         // Start with the TeamSelect view
-        CurrentView = new Login();
+        CurrentView = new LoginViewModel(this);
     }
 
     protected void OnPropertyChanged(string propertyName)

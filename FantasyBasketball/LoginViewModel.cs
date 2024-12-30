@@ -9,6 +9,7 @@ using Utilities;
 namespace FantasyBasketball;
 public class LoginViewModel : INotifyPropertyChanged
 {
+    private readonly MainViewModel m_mainViewModel;
     private string m_leagueId;
     private string m_leagueYear;
     private string m_swid;
@@ -24,6 +25,8 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_leagueId = value;
                 OnPropertyChanged(nameof(LeagueId));
+                //notify Login Command that LeagueId textbox is populated
+                ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
             }
         }
     }
@@ -36,6 +39,8 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_leagueYear = value;
                 OnPropertyChanged(nameof(LeagueYear));
+                //notify Login Command that LeagueYear textbox is populated
+                ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
             }
         }
     }
@@ -80,8 +85,9 @@ public class LoginViewModel : INotifyPropertyChanged
 
     public ICommand LoginCommand { get; }
 
-    public LoginViewModel()
+    public LoginViewModel(MainViewModel mainViewModel)
     {
+        m_mainViewModel = mainViewModel;
         LoginCommand = new RelayCommand(() => ExecuteLoginAsync(), CanLogin);
     }
 
@@ -97,7 +103,7 @@ public class LoginViewModel : INotifyPropertyChanged
         League league = new League(responseData);
 
         // Update the CurrentView to TeamSelect
-        CurrentView = new TeamSelectViewModel(league);
+        m_mainViewModel.CurrentView = new TeamSelectViewModel(m_mainViewModel, league);
     }
 
     protected void OnPropertyChanged(string propertyName)

@@ -10,6 +10,7 @@ namespace FantasyBasketball;
 
 public class TeamSelectViewModel : INotifyPropertyChanged
 {
+    private readonly MainViewModel m_mainViewModel;
     private League m_league;
     public event PropertyChangedEventHandler? PropertyChanged;
     private string? _selectedItem;
@@ -27,29 +28,17 @@ public class TeamSelectViewModel : INotifyPropertyChanged
         }
     }
 
-    private Object? _currentView;
-    public Object? CurrentView
-    {
-        get => _currentView;
-        set
-        {
-            if(_currentView != value)
-            {
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
-            }
-        }
-    }
 
     public ObservableCollection<string> Teams { get; } = new ObservableCollection<string>();
 
     public ICommand SubmitCommand{ get; }
 
-    public TeamSelectViewModel(League league)
+    public TeamSelectViewModel(MainViewModel mainViewModel, League league)
     {
+        m_mainViewModel = mainViewModel;
         m_league = league;
 
-        var teamNames = league.GetTeamNames();
+        var teamNames = m_league.GetTeamNames();
 
         foreach (var team in teamNames.OrderBy(x => x))
         {
@@ -63,8 +52,7 @@ public class TeamSelectViewModel : INotifyPropertyChanged
     {
         if(SelectedItem != null)
         {
-            CurrentView = new FunctionSelect(m_league, SelectedItem);
-            Console.WriteLine($"SelectedItem: {SelectedItem}");
+            m_mainViewModel.CurrentView = new FunctionSelectViewModel(m_mainViewModel, m_league, SelectedItem);
         }
     }
 

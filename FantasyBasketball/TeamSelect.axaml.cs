@@ -8,11 +8,8 @@ namespace FantasyBasketball;
 
 public partial class TeamSelect : UserControl
 {
-    public TeamSelect(League league)
+    public TeamSelect()
     {
         InitializeComponent();
-        
-        DataContext = new TeamSelectViewModel(league);
     }
-
 }
