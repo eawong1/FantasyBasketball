@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -82,6 +83,43 @@ namespace Utilities
             }
 
             return responseDataDict;
+        }
+
+        public static string GetStringPositions(int position)
+        {
+            switch(position)
+            {
+                case 0:
+                    return "PG";
+                case 1:
+                    return "SG";
+                case 2:
+                    return "SF";
+                case 3:
+                    return "PF";
+                case 4:
+                    return "C";
+                case 5:
+                    return "G";
+                case 6:
+                    return "F";
+                case 7:
+                    return "UTIL";
+                case 8:
+                    return "UTIL";
+                case 9:
+                    return "UTIL";
+                case 10:
+                    return "BE";
+                case 11:
+                    return "BE";
+                case 12:
+                    return "BE";
+                case 13:
+                    return "IR";
+                default:
+                    return "";
+            }
         }
     }
 }

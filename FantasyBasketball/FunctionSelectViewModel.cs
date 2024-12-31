@@ -41,10 +41,14 @@ public class FunctionSelectViewModel : INotifyPropertyChanged
     public void ExecuteGetPos()
     {
         var roster = m_league.GetRoster(m_teamName);
-        Console.WriteLine($"roster length: {roster.Count}");
-        foreach(var name in roster)
+        foreach(var player in roster)
         {
-            Console.WriteLine("Name: " + name);
+            Console.Write($"{player.Key}: ");
+            foreach(var position in player.Value)
+            {
+                Console.Write($"{Utilities.UtilityFunctions.GetStringPositions(position)}, ");
+            }
+            Console.WriteLine();
         }
     }
 
