@@ -18,6 +18,9 @@
         <DataTemplate DataType="{x:Type local:FunctionSelectViewModel}">
             <local:FunctionSelect />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type local:DisplayPosViewModel}">
+            <local:DisplayPos />
+        </DataTemplate>
     </Window.DataTemplates>
 
     <!-- Bind to the CurrentView property of the MainViewModel -->

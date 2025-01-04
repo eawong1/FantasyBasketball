@@ -96,6 +96,7 @@ public class LoginViewModel : INotifyPropertyChanged
         return !string.IsNullOrWhiteSpace(LeagueId) && !string.IsNullOrWhiteSpace(LeagueYear);
     }
 
+    //TODO: Make sure once login is clicked. It can't be clicked again. Would cause a bug
     private async Task ExecuteLoginAsync()
     {
         var responseData = await UtilityFunctions.Login(LeagueId, LeagueYear, Swid, EspnS2);

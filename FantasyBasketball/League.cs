@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,7 +17,7 @@ public class League
 {
     private static Dictionary<string, JsonElement> m_responseData;
     private static List<Dictionary<string, object>>? m_teams;
-    // private Dictionary<string, List<Positions>>? m_roster;
+    private List<Player>? m_roster;
     public League(Dictionary<string, JsonElement> responseData)
     {
         m_responseData = responseData;
@@ -36,16 +37,17 @@ public class League
         return teamNames;
     }
 
-    public Dictionary<string, List<int>> GetRoster(string teamName)
+    // public Dictionary<string, List<int>> GetRoster(string teamName)
+    public List<Player> GetRoster(string teamName)
     {
         
-        var roster = new Dictionary<string, List<int>>();
-
-        //! something is wrong with this filtering logic below
+        if(m_roster == null)
+        {
+            m_roster = new List<Player>();
+        }
         var team = m_teams.FirstOrDefault(dict => dict["name"].ToString() == teamName);
         
-        var temp1 = JsonSerializer.Serialize(team["roster"]);
-        using JsonDocument jsonDoc = JsonDocument.Parse(temp1);
+        using JsonDocument jsonDoc = JsonDocument.Parse(JsonSerializer.Serialize(team["roster"]));
         JsonElement root = jsonDoc.RootElement;
         if (root.ValueKind == JsonValueKind.String)
         {
@@ -61,18 +63,52 @@ public class League
                 {
                     var playerElement = playerPoolEntryElement.GetProperty("player");
                     var eligibleSlots = playerElement.GetProperty("eligibleSlots").EnumerateArray();
-                    List<int> playerPositions = new List<int>();
+                    var playerPositions = new List<string>();
 
                     foreach(var slot in eligibleSlots)
                     {
-                        playerPositions.Add(slot.GetInt32());
+                        // playerPositions.Add(slot.GetInt32());
+                        playerPositions.Add(UtilityFunctions.GetStringPositions(slot.GetInt32()));
                     }
 
-                    roster[playerElement.GetProperty("fullName").GetString()] = playerPositions;
+                    // roster[playerElement.GetProperty("fullName").GetString()] = playerPositions;
+                    m_roster.Add(new Player(playerElement.GetProperty("fullName").GetString(), playerPositions));
                 }
             }
         }
 
-        return roster;
+        return m_roster;
     }
+
+    public Dictionary<string, List<Player>> GetPositions(string teamName)
+    {
+        var positions = new Dictionary<string, List<Player>>();
+        
+        if(m_roster?.Any() != true)
+        {
+            GetRoster(teamName);
+        }
+        
+        foreach(var player in m_roster)
+        {
+            var eligiblePositions = player.GetEligiblePositions();
+            foreach(var pos in eligiblePositions)
+            {
+                if(pos == "BE" || pos == "IR" || pos == "UTIL")
+                {
+                    continue;
+                }
+                if(positions.TryGetValue(pos, out List<Player> value))
+                {
+                    value.Add(player);
+                }
+                else
+                {
+                    positions[pos] = new List<Player>{player};
+                }
+            }
+        }
+
+        return positions;
+    } 
 }

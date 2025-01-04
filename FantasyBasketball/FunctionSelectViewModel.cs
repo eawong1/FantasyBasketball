@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Commands;
@@ -40,13 +41,14 @@ public class FunctionSelectViewModel : INotifyPropertyChanged
 
     public void ExecuteGetPos()
     {
-        var roster = m_league.GetRoster(m_teamName);
-        foreach(var player in roster)
+        // var roster = m_league.GetRoster(m_teamName);
+        var temp = m_league.GetPositions(m_teamName);
+        foreach(var pos in temp)
         {
-            Console.Write($"{player.Key}: ");
-            foreach(var position in player.Value)
+            Console.Write($"{pos.Key}: ");
+            foreach(var player in pos.Value)
             {
-                Console.Write($"{Utilities.UtilityFunctions.GetStringPositions(position)}, ");
+                Console.Write($"{player.GetName()}, ");
             }
             Console.WriteLine();
         }
