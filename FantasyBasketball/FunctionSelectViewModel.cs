@@ -52,6 +52,8 @@ public class FunctionSelectViewModel : INotifyPropertyChanged
             }
             Console.WriteLine();
         }
+
+        m_mainViewModel.CurrentView = new DisplayPosViewModel(m_mainViewModel, temp);
     }
 
     protected void OnPropertyChanged(string propertyName)

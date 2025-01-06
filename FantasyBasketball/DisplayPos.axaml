@@ -1,19 +1,26 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="FantasyBasketball.DisplayPos"
-        x:DataType="vm:DisplayPosViewModel"
-        xmlns:vm="clr-namespace:FantasyBasketball">
-    
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:FantasyBasketball"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FantasyBasketball.DisplayPos"
+             x:DataType="vm:DisplayPosViewModel">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+            <ItemsControl ItemsSource="{Binding Expanders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:ExpanderItem">
+                        <Expander Header="{Binding Header}">
+                            <ListBox ItemsSource="{Binding Content}" />
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
-
 </UserControl>
