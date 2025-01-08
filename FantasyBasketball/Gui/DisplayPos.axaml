@@ -11,14 +11,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding Expanders}">
+            <ItemsControl ItemsSource="{Binding Expanders}" HorizontalAlignment="Stretch">
+                
                 <ItemsControl.ItemTemplate>
+
                     <DataTemplate DataType="vm:ExpanderItem">
-                        <Expander Header="{Binding Header}">
-                            <ListBox ItemsSource="{Binding Content}" />
+                        <Expander Header="{Binding Header}" HorizontalAlignment="Stretch">
+                            <ListBox ItemsSource="{Binding Content}" HorizontalAlignment="Stretch"/>
                         </Expander>
                     </DataTemplate>
+
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>

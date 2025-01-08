@@ -41,19 +41,9 @@ public class FunctionSelectViewModel : INotifyPropertyChanged
 
     public void ExecuteGetPos()
     {
-        // var roster = m_league.GetRoster(m_teamName);
-        var temp = m_league.GetPositions(m_teamName);
-        foreach(var pos in temp)
-        {
-            Console.Write($"{pos.Key}: ");
-            foreach(var player in pos.Value)
-            {
-                Console.Write($"{player.GetName()}, ");
-            }
-            Console.WriteLine();
-        }
+        var positions = m_league.GetPositions(m_teamName);
 
-        m_mainViewModel.CurrentView = new DisplayPosViewModel(m_mainViewModel, temp);
+        m_mainViewModel.CurrentView = new DisplayPosViewModel(m_mainViewModel, positions);
     }
 
     protected void OnPropertyChanged(string propertyName)

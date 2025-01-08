@@ -34,7 +34,7 @@ public class DisplayPosViewModel : INotifyPropertyChanged
                 playerNames.Add(player.GetName());
             }
 
-            Expanders.Add(new ExpanderItem { Header = pos.Key, Content = playerNames});
+            Expanders.Add(new ExpanderItem { Header = $"{pos.Key}: {playerNames.Count()}", Content = playerNames});
         }
     }
 }
