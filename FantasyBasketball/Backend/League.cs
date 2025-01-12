@@ -18,16 +18,18 @@ public class League
     private static Dictionary<string, JsonElement> m_responseData;
     private static List<Dictionary<string, object>>? m_teams;
     private List<Player>? m_roster;
-    public League(Dictionary<string, JsonElement> responseData)
+    private IUtilityFunctions m_utility;
+    public League(Dictionary<string, JsonElement> responseData, IUtilityFunctions utility)
     {
         m_responseData = responseData;
+        m_utility = utility;
     }
 
     public List<string> GetTeamNames()
     {
         List<string> teamNames = new List<string>();
         
-        m_teams = UtilityFunctions.JsonElementToListOfObjects(m_responseData["teams"]);
+        m_teams = m_utility.JsonElementToListOfObjects(m_responseData["teams"]);
         
         foreach(var team in m_teams)
         {
@@ -37,7 +39,6 @@ public class League
         return teamNames;
     }
 
-    // public Dictionary<string, List<int>> GetRoster(string teamName)
     public List<Player> GetRoster(string teamName)
     {
         
@@ -51,12 +52,10 @@ public class League
         JsonElement root = jsonDoc.RootElement;
         if (root.ValueKind == JsonValueKind.String)
         {
-            // Console.WriteLine($"String value: {root.GetString()}");
             var jsonString = root.GetString();
             using JsonDocument doc = JsonDocument.Parse(jsonString);
             JsonElement parsedElement = doc.RootElement;
 
-            // var temp = ;
             foreach(var entries in parsedElement.GetProperty("entries").EnumerateArray())
             {
                 if (entries.TryGetProperty("playerPoolEntry", out JsonElement playerPoolEntryElement))
@@ -67,11 +66,9 @@ public class League
 
                     foreach(var slot in eligibleSlots)
                     {
-                        // playerPositions.Add(slot.GetInt32());
-                        playerPositions.Add(UtilityFunctions.GetStringPositions(slot.GetInt32()));
+                        playerPositions.Add(m_utility.GetStringPositions(slot.GetInt32()));
                     }
 
-                    // roster[playerElement.GetProperty("fullName").GetString()] = playerPositions;
                     m_roster.Add(new Player(playerElement.GetProperty("fullName").GetString(), playerPositions));
                 }
             }

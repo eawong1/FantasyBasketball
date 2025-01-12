@@ -16,6 +16,7 @@ public class LoginViewModel : INotifyPropertyChanged
     private string m_espnS2;
     private object? m_currentView;
     public event PropertyChangedEventHandler? PropertyChanged;
+    private UtilityFunctions m_utilities;
     public string LeagueId
     {
         get => m_leagueId;
@@ -99,9 +100,10 @@ public class LoginViewModel : INotifyPropertyChanged
     //TODO: Make sure once login is clicked. It can't be clicked again. Would cause a bug
     private async Task ExecuteLoginAsync()
     {
+        m_utilities = new UtilityFunctions();
         var responseData = await UtilityFunctions.Login(LeagueId, LeagueYear, Swid, EspnS2);
 
-        League league = new League(responseData);
+        League league = new League(responseData, m_utilities);
 
         // Update the CurrentView to TeamSelect
         m_mainViewModel.CurrentView = new TeamSelectViewModel(m_mainViewModel, league);
