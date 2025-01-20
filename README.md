@@ -19,12 +19,17 @@ dotnet run
 ```
 
 Logging In:
-![Screenshot from 2025-01-19 18-18-05](https://github.com/user-attachments/assets/8123595d-cbb8-4c6d-98a3-eb42dbe33a7f)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9590998b-23e7-4d7e-b307-462e24e698d1">
+</p>
+
 
 If your Fantasy Basketball league is public all you need to login is the League ID and the League Year. Both the League ID and the League Year can be found in the URL of your Fantasy Basketball page. After logging into your ESPN Fantasy account and clicking on your league, go to your league's "My Team" page. It should look something like this:
-<insert image here>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b5386992-3fcf-405e-a9b9-8846a16640b7" width="800">
+</p>
 
-However, if your league is private, you will also need the SWID and ESPN_S2. I've found the easiest way to get the SWID and ESPN_S2 is by logging in 
+However, if your league is private, you will also need the SWID and ESPN_S2. I've found the easiest way to get the SWID and ESPN_S2 is by logging into your ESPN Fantasy account, right clicking, clicking inspect elements and looking for espn_s2 and SWID properties.
 
 
 ## Acknowledgments
