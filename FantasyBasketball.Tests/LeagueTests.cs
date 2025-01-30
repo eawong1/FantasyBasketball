@@ -32,4 +32,10 @@ public class Tests
         var expectedTeamNames = new List<string> {"TeamName", "TeamName2"};
         Assert.That(expectedTeamNames, Is.EquivalentTo(teamNames));
     }
+
+    [Test]
+    public void League_TestGetRoster()
+    {
+        
+    }
 }

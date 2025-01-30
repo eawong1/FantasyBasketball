@@ -40,8 +40,7 @@ public class League
     }
 
     public List<Player> GetRoster(string teamName)
-    {
-        
+    {   
         if(m_roster == null)
         {
             m_roster = new List<Player>();
