@@ -10,5 +10,5 @@ public interface IJsonDocumentFunctions
     string Serialize(object players);
     JsonElement GetProperty(JsonElement element, string propertyName);
     JsonElement.ArrayEnumerator EnumerateArray(JsonElement element);
-
+    (bool result, JsonElement output) TryGetProperty(JsonElement entries, string propertyName);
 }

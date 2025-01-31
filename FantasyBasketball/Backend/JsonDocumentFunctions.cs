@@ -29,4 +29,10 @@ public class JsonDocumentFunctions : IJsonDocumentFunctions
     {
         return JsonSerializer.Serialize(players);
     }
+
+    (bool, JsonElement) IJsonDocumentFunctions.TryGetProperty(JsonElement entries, string propertyName)
+    {
+        var result = entries.TryGetProperty(propertyName, out JsonElement output);
+        return (result, output);
+    }
 }
