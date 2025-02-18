@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Commands;
+using Utilities;
 
 namespace FantasyBasketball;
 
@@ -41,7 +42,10 @@ public class FunctionSelectViewModel : INotifyPropertyChanged
 
     public void ExecuteGetPos()
     {
-        var positions = m_league.GetPositions(m_teamName);
+        var roster = m_league.GetRoster(m_teamName);
+
+        TeamServices teamServices = new TeamServices(new UtilityFunctions());
+        var positions = teamServices.GetPositions(roster);
 
         m_mainViewModel.CurrentView = new DisplayPosViewModel(m_mainViewModel, positions);
     }
