@@ -7,7 +7,7 @@ using Utilities;
 namespace FantasyBasketball.Tests;
 
 [TestFixture]
-public class Tests
+public class LeagueTests
 {
     private IUtilityFunctions _utilities;
     private ITeamServices _teamServices;
