@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Player
+public class Player : IPlayer
 {
     string m_name;
     List<string> m_eligiblePositions;
