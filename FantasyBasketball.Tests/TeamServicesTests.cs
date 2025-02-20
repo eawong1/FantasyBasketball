@@ -20,50 +20,56 @@ public class TeamServicesTests
     }
 
     [Test]
-    public void GetPositions_ShouldReturnCorrectPositions_WhenRosterIsValid()
+    public void TeamServices_GetTeams_ShouldReturnExpectedTeams()
     {
-        // Arrange
+        var jsonElement = JsonDocument.Parse("[{\"name\": \"TeamName\"}, {\"name\": \"TeamName2\"}]").RootElement;
+        var expectedTeams = new List<Dictionary<string, object>>
+        {
+            new Dictionary<string, object> { { "name", "TeamName" } },
+            new Dictionary<string, object> { { "name", "TeamName2" } }
+        };
+
+        _mockUtilityFunctions.JsonElementToListOfObjects(jsonElement).Returns(expectedTeams);
+
+        var teams = _teamServices.GetTeams(jsonElement);
+
+        Assert.That(teams, Is.EquivalentTo(expectedTeams));
+    }
+
+    [Test]
+    public void TeamServices_GetPositions_ShouldReturnCorrectPositions_WhenRosterIsValid()
+    {
         var roster = new List<Player>
         {
             new Player("Player1", new List<string> { "PG", "SG" }),
-            new Player("Player2", new List<string> { "SF", "PF" }),
-            new Player("Player3", new List<string> { "C", "UTIL" })
+            new Player("Player2", new List<string> { "SF", "PG" }),
+            new Player("Player3", new List<string> { "C", "UTIL", "IR", "BE" })
         };
 
-        // Act
         var result = _teamServices.GetPositions(roster);
 
-        // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.ContainsKey("PG"), Is.True);
-        Assert.That(result.ContainsKey("SG"), Is.True);
-        Assert.That(result.ContainsKey("SF"), Is.True);
-        Assert.That(result.ContainsKey("PF"), Is.True);
-        Assert.That(result.ContainsKey("C"), Is.True);
         Assert.That(result.ContainsKey("UTIL"), Is.False);
+
+        Assert.That(result["PG"].Count, Is.EqualTo(2));
+        Assert.That(result["SG"].Count, Is.EqualTo(1));
+        Assert.That(result["SF"].Count, Is.EqualTo(1));
+        Assert.That(result["C"].Count, Is.EqualTo(1));
+
+        Assert.That(result["PG"], Has.Exactly(1).Matches<Player>(p => p.GetName() == "Player1"));
+        Assert.That(result["PG"], Has.Exactly(1).Matches<Player>(p => p.GetName() == "Player2"));
+        Assert.That(result["SG"], Has.Exactly(1).Matches<Player>(p => p.GetName() == "Player1"));
+        Assert.That(result["SF"], Has.Exactly(1).Matches<Player>(p => p.GetName() == "Player2"));
+        Assert.That(result["C"], Has.Exactly(1).Matches<Player>(p => p.GetName() == "Player3"));
     }
 
     [Test]
-    public void GetPositions_ShouldReturnEmptyDictionary_WhenRosterIsNull()
+    public void TeamServices_GetPositions_ShouldReturnEmptyDictionary_WhenRosterIsEmpty()
     {
-        // Act
-        var result = _teamServices.GetPositions(null);
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.Empty);
-    }
-
-    [Test]
-    public void GetPositions_ShouldReturnEmptyDictionary_WhenRosterIsEmpty()
-    {
-        // Arrange
         var roster = new List<Player>();
 
-        // Act
         var result = _teamServices.GetPositions(roster);
 
-        // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.Empty);
     }

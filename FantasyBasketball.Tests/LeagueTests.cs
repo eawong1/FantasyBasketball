@@ -25,7 +25,7 @@ public class LeagueTests
     }
 
     [Test]
-    public void League_TestGetTeams()
+    public void League_TestGetTeams_ShouldReturnExpectedTeams()
     {
         var responseData = new Dictionary<string, JsonElement> 
         { 
@@ -48,7 +48,7 @@ public class LeagueTests
     }
 
     [Test]
-    public void League_TestGetRoster()
+    public void League_TestGetRoster_ShouldReturnExpectedRoster()
     {
         // create a Team A and a roster with one player in positions PG and SG
         var teamName = "Team A";

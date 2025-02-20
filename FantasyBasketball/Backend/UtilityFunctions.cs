@@ -71,7 +71,7 @@ public class UtilityFunctions : IUtilityFunctions
         }
     }
 
-    public static async Task<Dictionary<string, JsonElement>> Login(string? leagueId, string? leagueYear, string? swid, string? espn)
+    public static async Task<Dictionary<string, JsonElement>> Login(string? leagueId, string? leagueYear, string? swid, string? espn, HttpClient? client = null)
     {
         Dictionary<string, JsonElement> responseDataDict;
 
@@ -92,31 +92,30 @@ public class UtilityFunctions : IUtilityFunctions
         handler.CookieContainer.Add(new Uri(url), new Cookie("espn_s2", espn));
 
         // Create an HttpClient instance
-        using (HttpClient client = new HttpClient(handler))
+        client ??= new HttpClient(handler);
+        
+        try
         {
-            try
-            {
-                // Make the GET request                
-                HttpResponseMessage response = await client.GetAsync(url);
+            // Make the GET request                
+            HttpResponseMessage response = await client.GetAsync(url);
 
-                // Check if the request was successful
-                if (response.IsSuccessStatusCode)
-                {
-                    //Read the response content as a string
-                    var responseData = await response.Content.ReadAsStringAsync();
-
-                    //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
-                    responseDataDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseData);
-                }
-                else
-                {
-                    throw new Exception("ResponseData Failed");
-                }
-            }
-            catch (Exception ex)
+            // Check if the request was successful
+            if (response.IsSuccessStatusCode)
             {
-                throw new Exception(ex.Message);
+                //Read the response content as a string
+                var responseData = await response.Content.ReadAsStringAsync();
+
+                //keys are draftDetail, gameId, id, members, schedule, scoringPeriodId, seasonId, segmentId, settings, status, teams
+                responseDataDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseData);
             }
+            else
+            {
+                throw new Exception("ResponseData Failed");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
         }
 
         return responseDataDict;
