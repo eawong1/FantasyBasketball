@@ -1,9 +1,6 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Net;
 using Utilities;
-using NSubstitute;
 
 namespace FantasyBasketball.Tests;
 
@@ -28,7 +25,7 @@ public class UtilityFunctionsTests
     {
         _utilityFunctions = new UtilityFunctions();
 
-        _mockHandler = Substitute.For<MockHttpMessageHandler>();
+        _mockHandler = new MockHttpMessageHandler();
         _mockClient = new HttpClient(_mockHandler);
     }
 
@@ -84,42 +81,36 @@ public class UtilityFunctionsTests
     }
 
     [Test]
-    public async Task Login_ShouldThrowException_WhenLeagueIdIsNull()
+    public async Task UtilityFunctions_Login_ShouldThrowException_WhenLeagueIdIsNull()
     {
-        // Arrange
         string leagueId = null;
         string leagueYear = "2023";
         string swid = "some_swid";
         string espn = "some_espn";
 
-        // Act & Assert
         var ex = Assert.ThrowsAsync<Exception>(async () => await UtilityFunctions.Login(leagueId, leagueYear, swid, espn, _mockClient));
         Assert.That(ex.Message, Is.EqualTo("League ID and League Year cannot be empty."));
     }
 
     [Test]
-    public async Task Login_ShouldThrowException_WhenLeagueYearIsNull()
+    public async Task UtilityFunctions_Login_ShouldThrowException_WhenLeagueYearIsNull()
     {
-        // Arrange
         string leagueId = "12345";
         string leagueYear = null;
         string swid = "some_swid";
         string espn = "some_espn";
 
-        // Act & Assert
         var ex = Assert.ThrowsAsync<Exception>(async () => await UtilityFunctions.Login(leagueId, leagueYear, swid, espn, _mockClient));
         Assert.That(ex.Message, Is.EqualTo("League ID and League Year cannot be empty."));
     }
 
-    [Test]
-    public async Task Login_ShouldReturnResponseData_WhenRequestIsSuccessful()
+    [Test]    
+    public async Task UtilityFunctions_Login_ShouldReturnResponseData_WhenRequestIsSuccessful()
     {
-        // Arrange
         string leagueId = "12345";
         string leagueYear = "2023";
         string swid = "some_swid";
         string espn = "some_espn";
-        // var url = $"https://lm-api-reads.fantasy.espn.com/apis/v3/games/fba/seasons/{leagueYear}/segments/0/leagues/{leagueId}?view=mTeam&view=mRoster&view=mMatchup&view=mSettings&view=mStandings";
 
         var responseData = new Dictionary<string, JsonElement>
         {
@@ -134,19 +125,16 @@ public class UtilityFunctionsTests
 
         _mockHandler.ResponseMessage = responseMessage;
 
-        // Act
         var result = await UtilityFunctions.Login(leagueId, leagueYear, swid, espn, _mockClient);
 
-        // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result["key1"].GetString(), Is.EqualTo("value1"));
         Assert.That(result["key2"].GetString(), Is.EqualTo("value2"));
     }
 
     [Test]
-    public async Task Login_ShouldThrowException_WhenRequestFails()
+    public async Task UtilityFunctions_Login_ShouldThrowException_WhenRequestFails()
     {
-        // Arrange
         string leagueId = "12345";
         string leagueYear = "2023";
         string swid = "some_swid";
@@ -155,10 +143,8 @@ public class UtilityFunctionsTests
 
         var responseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-        // _mockHandler.SendAsync(Arg.Any<HttpRequestMessage>()).Returns(Task.FromResult(responseMessage));
         _mockHandler.ResponseMessage = responseMessage;
 
-        // Act & Assert
         var ex = Assert.ThrowsAsync<Exception>(async () => await UtilityFunctions.Login(leagueId, leagueYear, swid, espn, _mockClient));
         Assert.That(ex.Message, Is.EqualTo("ResponseData Failed"));
     }
