@@ -15,21 +15,26 @@ using Utilities;
 
 public class League
 {
-    private static Dictionary<string, JsonElement> m_responseData;
-    private static List<Dictionary<string, object>>? m_teams;
+    private Dictionary<string, JsonElement> m_responseData;
+    private List<Dictionary<string, object>>? m_teams;
     private List<Player>? m_roster;
     private IUtilityFunctions m_utility;
-    public League(Dictionary<string, JsonElement> responseData, IUtilityFunctions utility)
+    private ITeamServices m_teamServices;
+    public League(Dictionary<string, JsonElement> responseData, IUtilityFunctions utility, ITeamServices teamServices)
     {
         m_responseData = responseData;
         m_utility = utility;
+        m_teamServices = teamServices;
     }
 
     public List<string> GetTeamNames()
     {
         List<string> teamNames = new List<string>();
         
-        m_teams = m_utility.JsonElementToListOfObjects(m_responseData["teams"]);
+        if(m_teams?.Any() != true)
+        {
+            m_teams = m_teamServices.GetTeams(m_responseData["teams"]);   
+        }
         
         foreach(var team in m_teams)
         {
@@ -40,8 +45,12 @@ public class League
     }
 
     public List<Player> GetRoster(string teamName)
-    {
-        
+    {   
+        if(m_teams?.Any() != true)
+        {
+            m_teams = m_teamServices.GetTeams(m_responseData["teams"]);
+        }
+
         if(m_roster == null)
         {
             m_roster = new List<Player>();
@@ -58,7 +67,7 @@ public class League
 
             foreach(var entries in parsedElement.GetProperty("entries").EnumerateArray())
             {
-                if (entries.TryGetProperty("playerPoolEntry", out JsonElement playerPoolEntryElement))
+                if(entries.TryGetProperty("playerPoolEntry", out JsonElement playerPoolEntryElement))
                 {
                     var playerElement = playerPoolEntryElement.GetProperty("player");
                     var eligibleSlots = playerElement.GetProperty("eligibleSlots").EnumerateArray();
@@ -76,36 +85,4 @@ public class League
 
         return m_roster;
     }
-
-    public Dictionary<string, List<Player>> GetPositions(string teamName)
-    {
-        var positions = new Dictionary<string, List<Player>>();
-        
-        if(m_roster?.Any() != true)
-        {
-            GetRoster(teamName);
-        }
-        
-        foreach(var player in m_roster)
-        {
-            var eligiblePositions = player.GetEligiblePositions();
-            foreach(var pos in eligiblePositions)
-            {
-                if(pos == "BE" || pos == "IR" || pos == "UTIL")
-                {
-                    continue;
-                }
-                if(positions.TryGetValue(pos, out List<Player> value))
-                {
-                    value.Add(player);
-                }
-                else
-                {
-                    positions[pos] = new List<Player>{player};
-                }
-            }
-        }
-
-        return positions;
-    } 
 }

@@ -17,6 +17,7 @@ public class LoginViewModel : INotifyPropertyChanged
     private object? m_currentView;
     public event PropertyChangedEventHandler? PropertyChanged;
     private UtilityFunctions m_utilities;
+    private TeamServices m_teamServices;
     public string LeagueId
     {
         get => m_leagueId;
@@ -101,9 +102,11 @@ public class LoginViewModel : INotifyPropertyChanged
     private async Task ExecuteLoginAsync()
     {
         m_utilities = new UtilityFunctions();
+        m_teamServices = new TeamServices(m_utilities);
+        
         var responseData = await UtilityFunctions.Login(LeagueId, LeagueYear, Swid, EspnS2);
 
-        League league = new League(responseData, m_utilities);
+        League league = new League(responseData, m_utilities, m_teamServices);
 
         // Update the CurrentView to TeamSelect
         m_mainViewModel.CurrentView = new TeamSelectViewModel(m_mainViewModel, league);
