@@ -3,10 +3,10 @@
     "type": "object",
     "properties": {
       "leagueId": {
-        "type": "integer"
+        "type": "string"
       },
       "seasonId": {
-        "type": "integer"
+        "type": "string"
       },
       "swid": {
         "type": "string"

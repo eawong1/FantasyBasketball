@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.IO;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Threading.Tasks;
+using NJsonSchema;
 
 namespace Utilities;
 
@@ -74,6 +74,11 @@ public class UtilityFunctions : IUtilityFunctions
 
     public void ParseJsonLogin(string jsonPath, out string leagueId, out string leagueYear, out string swid, out string espnS2)
     {
+        if (!File.Exists(jsonPath))
+        {
+            throw new FileNotFoundException($"The file at path {jsonPath} was not found.");
+        }
+
         using (StreamReader reader = new StreamReader(jsonPath))
         {
             string jsonString = reader.ReadToEnd();
@@ -84,6 +89,41 @@ public class UtilityFunctions : IUtilityFunctions
             leagueYear = root.GetProperty("seasonId").GetString();
             swid = root.GetProperty("swid").GetString();
             espnS2 = root.GetProperty("espnS2").GetString();
+        }
+    }
+
+    //TODO: finish fixing this method
+    public void CheckLoginJsonSchema(string jsonPath)
+    {
+        if (!File.Exists(jsonPath))
+        {
+            throw new FileNotFoundException($"The file at path {jsonPath} was not found.");
+        }
+
+        string schemaPath = "path/to/Login.schema.json"; // Update this path to the actual schema file location
+        if (!File.Exists(schemaPath))
+        {
+            throw new FileNotFoundException($"The schema file at path {schemaPath} was not found.");
+        }
+
+        string jsonString;
+        using (StreamReader reader = new StreamReader(jsonPath))
+        {
+            jsonString = reader.ReadToEnd();
+        }
+
+        string schemaString;
+        using (StreamReader reader = new StreamReader(schemaPath))
+        {
+            schemaString = reader.ReadToEnd();
+        }
+
+        var schema = JsonSchema.FromJsonAsync(schemaString).Result;
+        var errors = schema.Validate(jsonString);
+
+        if (errors.Count > 0)
+        {
+            throw new Exception("JSON validation failed: " + string.Join(", ", errors));
         }
     }
 

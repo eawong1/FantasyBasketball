@@ -112,13 +112,29 @@ public class LoginViewModel : INotifyPropertyChanged
         return !string.IsNullOrWhiteSpace(LeagueId) && !string.IsNullOrWhiteSpace(LeagueYear);
     }
 
+    public void GetLoginFromJson()
+    {
+        m_utilities = new UtilityFunctions();
+        if (m_jsonPath == null)
+        {
+            throw new ArgumentNullException(nameof(m_jsonPath));
+        }
+
+        m_utilities.ParseJsonLogin(m_jsonPath, out m_leagueId, out m_leagueYear, out m_swid, out m_espnS2);
+    }
+
     //TODO: Make sure once login is clicked. It can't be clicked again. Would cause a bug
+    //TODO: fix it so that login isn't grayed out after putting in json file
     private async Task ExecuteLoginAsync()
     {
         m_utilities = new UtilityFunctions();
         m_teamServices = new TeamServices(m_utilities);
-        
-        var responseData = await UtilityFunctions.Login(LeagueId, LeagueYear, Swid, EspnS2);
+
+        if(m_jsonPath != null)
+        {
+            GetLoginFromJson();
+        }        
+        var responseData = await UtilityFunctions.Login(m_leagueId, m_leagueYear, m_swid, m_espnS2);
 
         League league = new League(responseData, m_utilities, m_teamServices);
 
