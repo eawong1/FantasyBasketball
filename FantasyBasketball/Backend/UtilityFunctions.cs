@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -68,6 +69,21 @@ public class UtilityFunctions : IUtilityFunctions
                 return "IR";
             default:
                 return "";
+        }
+    }
+
+    public void ParseJsonLogin(string jsonPath, out string leagueId, out string leagueYear, out string swid, out string espnS2)
+    {
+        using (StreamReader reader = new StreamReader(jsonPath))
+        {
+            string jsonString = reader.ReadToEnd();
+            using JsonDocument doc = JsonDocument.Parse(jsonString);
+            JsonElement root = doc.RootElement;
+
+            leagueId = root.GetProperty("leagueId").GetString();
+            leagueYear = root.GetProperty("seasonId").GetString();
+            swid = root.GetProperty("swid").GetString();
+            espnS2 = root.GetProperty("espnS2").GetString();
         }
     }
 

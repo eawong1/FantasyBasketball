@@ -59,7 +59,7 @@
                 <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Or Login by loading JSON file" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,5,0" />
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="JSON Login File:" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0" />
-                <TextBox Grid.Row="6" Grid.Column="1" Width="200" Margin="55,5,0,5" Text="{Binding EspnS2}"/>
+                <TextBox Grid.Row="6" Grid.Column="1" Width="200" Margin="55,5,0,5" Text="{Binding JsonPath}"/>
 
                 <!-- Login Button -->
                 <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="Login" Width="100" HorizontalAlignment="Center" Margin="10" Command="{Binding LoginCommand}"/>

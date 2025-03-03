@@ -15,6 +15,7 @@ public class LoginViewModel : INotifyPropertyChanged
     private string m_swid;
     private string m_espnS2;
     private object? m_currentView;
+    private string? m_jsonPath;
     public event PropertyChangedEventHandler? PropertyChanged;
     private UtilityFunctions m_utilities;
     private TeamServices m_teamServices;
@@ -68,6 +69,19 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_espnS2 = value;
                 OnPropertyChanged(nameof(EspnS2));
+            }
+        }
+    }
+
+    public string JsonPath
+    {
+        get => m_jsonPath;
+        set
+        {
+            if (m_jsonPath != value)
+            {
+                m_jsonPath = value;
+                OnPropertyChanged(nameof(JsonPath));
             }
         }
     }
