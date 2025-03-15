@@ -148,4 +148,68 @@ public class UtilityFunctionsTests
         var ex = Assert.ThrowsAsync<Exception>(async () => await UtilityFunctions.Login(leagueId, leagueYear, swid, espn, _mockClient));
         Assert.That(ex.Message, Is.EqualTo("ResponseData Failed"));
     }
+
+    [Test]
+    public void ParseJsonLogin_ShouldParseJsonCorrectly()
+    {
+        // Arrange
+        string jsonContent = @"
+        {
+            ""leagueId"": ""12345"",
+            ""seasonId"": ""2025"",
+            ""swid"": ""{ABC-123}"",
+            ""espnS2"": ""some_espn_s2_value""
+        }";
+        string tempFilePath = Path.GetTempFileName();
+        File.WriteAllText(tempFilePath, jsonContent);
+
+        // Act
+        _utilityFunctions.ParseJsonLogin(tempFilePath, out string leagueId, out string leagueYear, out string swid, out string espnS2);
+
+        // Assert
+        Assert.That(leagueId, Is.EqualTo("12345"));
+        Assert.That(leagueYear, Is.EqualTo("2025"));
+        Assert.That(swid, Is.EqualTo("{ABC-123}"));
+        Assert.That(espnS2, Is.EqualTo("some_espn_s2_value"));
+
+        // Clean up
+        File.Delete(tempFilePath);
+    }
+
+    [Test]
+    public void ParseJsonLogin_ShouldHandleMissingOptionalFields()
+    {
+        // Arrange
+        string jsonContent = @"
+        {
+            ""leagueId"": ""12345"",
+            ""seasonId"": ""2025""
+        }";
+        string tempFilePath = Path.GetTempFileName();
+        File.WriteAllText(tempFilePath, jsonContent);
+
+        // Act
+        _utilityFunctions.ParseJsonLogin(tempFilePath, out string leagueId, out string leagueYear, out string swid, out string espnS2);
+
+        // Assert
+        Assert.That(leagueId, Is.EqualTo("12345"));
+        Assert.That(leagueYear, Is.EqualTo("2025"));
+        Assert.That(swid, Is.Null);
+        Assert.That(espnS2, Is.Null);
+
+        // Clean up
+        File.Delete(tempFilePath);
+    }
+
+    [Test]
+    public void ParseJsonLogin_ShouldThrowFileNotFoundExceptionForInvalidPath()
+    {
+        // Arrange
+        string invalidFilePath = "invalid/path/to/file.json";
+
+        // Act & Assert
+        var ex = Assert.Throws<FileNotFoundException>(() =>
+            _utilityFunctions.ParseJsonLogin(invalidFilePath, out _, out _, out _, out _));
+        Assert.That(ex.Message, Is.EqualTo($"The file at path {invalidFilePath} was not found."));
+    }
 }

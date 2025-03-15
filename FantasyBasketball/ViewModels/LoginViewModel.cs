@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Input;
 using Avalonia.Controls;
 using Commands;
@@ -28,7 +29,7 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_leagueId = value;
                 OnPropertyChanged(nameof(LeagueId));
-                //notify Login Command that LeagueId textbox is populated
+                //notify Login Command that LeagueYear textbox is populated and to recheck CanLogin()
                 ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
             }
         }
@@ -42,7 +43,7 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_leagueYear = value;
                 OnPropertyChanged(nameof(LeagueYear));
-                //notify Login Command that LeagueYear textbox is populated
+                //notify Login Command that LeagueYear textbox is populated and to recheck CanLogin()
                 ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
             }
         }
@@ -82,6 +83,7 @@ public class LoginViewModel : INotifyPropertyChanged
             {
                 m_jsonPath = value;
                 OnPropertyChanged(nameof(JsonPath));
+                ((RelayCommand)LoginCommand).RaiseCanExecuteChanged();
             }
         }
     }
@@ -109,7 +111,7 @@ public class LoginViewModel : INotifyPropertyChanged
 
     private bool CanLogin()
     {
-        return !string.IsNullOrWhiteSpace(LeagueId) && !string.IsNullOrWhiteSpace(LeagueYear);
+        return (!string.IsNullOrWhiteSpace(LeagueId) && !string.IsNullOrWhiteSpace(LeagueYear)) || (!string.IsNullOrWhiteSpace(JsonPath));
     }
 
     public void GetLoginFromJson()
@@ -120,6 +122,10 @@ public class LoginViewModel : INotifyPropertyChanged
             throw new ArgumentNullException(nameof(m_jsonPath));
         }
 
+        // Console.WriteLine("base:string: " + AppDomain.CurrentDomain.BaseDirectory);
+        var schemaPath = Path.Combine("/home/hobble/Documents/FantasyBasketball/FantasyBasketball", "Data", "Login.schema.json");
+        Console.WriteLine("schemaPath: " + schemaPath);
+        m_utilities.CheckLoginJsonSchema(m_jsonPath, schemaPath);
         m_utilities.ParseJsonLogin(m_jsonPath, out m_leagueId, out m_leagueYear, out m_swid, out m_espnS2);
     }
 
@@ -130,10 +136,10 @@ public class LoginViewModel : INotifyPropertyChanged
         m_utilities = new UtilityFunctions();
         m_teamServices = new TeamServices(m_utilities);
 
-        if(m_jsonPath != null)
+        if (m_jsonPath != null)
         {
             GetLoginFromJson();
-        }        
+        }
         var responseData = await UtilityFunctions.Login(m_leagueId, m_leagueYear, m_swid, m_espnS2);
 
         League league = new League(responseData, m_utilities, m_teamServices);

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using NJsonSchema;
+using System.Xml.Schema;
 
 namespace Utilities;
 
@@ -72,7 +73,7 @@ public class UtilityFunctions : IUtilityFunctions
         }
     }
 
-    public void ParseJsonLogin(string jsonPath, out string leagueId, out string leagueYear, out string swid, out string espnS2)
+    public void ParseJsonLogin(string jsonPath, out string leagueId, out string leagueYear, out string? swid, out string? espnS2)
     {
         if (!File.Exists(jsonPath))
         {
@@ -87,21 +88,33 @@ public class UtilityFunctions : IUtilityFunctions
 
             leagueId = root.GetProperty("leagueId").GetString();
             leagueYear = root.GetProperty("seasonId").GetString();
-            swid = root.GetProperty("swid").GetString();
-            espnS2 = root.GetProperty("espnS2").GetString();
+            if (root.TryGetProperty("swid", out JsonElement swidElement) && root.TryGetProperty("espnS2", out JsonElement espnS2Element))
+            {
+                swid = root.GetProperty("swid").GetString();
+                espnS2 = root.GetProperty("espnS2").GetString();
+            }
+            else
+            {
+                swid = null;
+                espnS2 = null;
+            }
         }
     }
 
     //TODO: finish fixing this method
-    public void CheckLoginJsonSchema(string jsonPath)
+    public void CheckLoginJsonSchema(string jsonPath, string? schemaPath)
     {
         if (!File.Exists(jsonPath))
         {
             throw new FileNotFoundException($"The file at path {jsonPath} was not found.");
         }
 
-        string schemaPath = "path/to/Login.schema.json"; // Update this path to the actual schema file location
-        if (!File.Exists(schemaPath))
+        if(schemaPath == null)
+        {
+            schemaPath = Path.Combine("/home/hobble/Documents/FantasyBasketball/FantasyBasketball", "Data", "Login.schema.json");
+        }
+
+        if(!File.Exists(schemaPath))
         {
             throw new FileNotFoundException($"The schema file at path {schemaPath} was not found.");
         }

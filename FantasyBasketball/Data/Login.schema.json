@@ -15,6 +15,9 @@
         "type": "string"
       }
     },
-    "required": ["leagueId", "seasonId", "swid", "espnS2"]
-
+    "required": ["leagueId", "seasonId"],
+    "dependencies": {
+        "swid": ["espnS2"],
+        "espnS2": ["swid"]
+    }
 }
